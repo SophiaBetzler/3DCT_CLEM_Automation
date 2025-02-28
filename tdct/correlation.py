@@ -281,7 +281,7 @@ def main(markers_3d,markers_2d,spots_3d,rotation_center,results_file,imageProps=
 		offsetZ = (max(imageProps[2])-imageProps[2][0])*0.5
 		offsetY = (max(imageProps[2])-imageProps[2][1])*0.5
 		offsetX = (max(imageProps[2])-imageProps[2][2])*0.5
-		print offsetZ, offsetY, offsetX
+		print(offsetZ, offsetY, offsetX)
 		mark_3d_cube = np.copy(mark_3d)
 		mark_3d_cube[0] += offsetX
 		mark_3d_cube[1] += offsetY

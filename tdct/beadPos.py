@@ -54,7 +54,7 @@ def getzPoly(x,y,img,n=None,optimize=False):
 	!! if optimize is True, 3 values are returned: x,y,z"""
 
 	if not isinstance(img, str) and not isinstance(img, np.ndarray):
-		if clrmsg and debug is True: print clrmsg.ERROR
+		if clrmsg and debug is True: print(clrmsg.ERROR)
 		raise TypeError('I can only handle an image path as string or an image volume as numpy.ndarray imported from tifffile.py')
 	elif isinstance(img, str):
 		img = tf.imread(img)
@@ -67,8 +67,8 @@ def getzPoly(x,y,img,n=None,optimize=False):
 	data_z_xp_poly, data_z_yp_poly = parabolic.parabolic_polyfit(data_z, np.argmax(data_z), n)
 
 	if math.isnan(data_z_xp_poly):
-		if clrmsg and debug is True: print clrmsg.ERROR
-		print TypeError('Failed: Probably due to low SNR')
+		if clrmsg and debug is True: print(clrmsg.ERROR)
+		print(TypeError('Failed: Probably due to low SNR'))
 		if optimize is True:
 			return x,y,'failed'
 		else:
@@ -99,13 +99,13 @@ def getzGauss(x,y,img,parent=None,optimize=False,threshold=None,threshVal=0.6,cu
 	cutout specifies the FOV for the 2D Gaussian fit"""
 
 	if not isinstance(img, str) and not isinstance(img, np.ndarray):
-		if clrmsg and debug is True: print clrmsg.ERROR
+		if clrmsg and debug is True: print(clrmsg.ERROR)
 		raise TypeError('I can only handle an image path as string or an image volume as numpy.ndarray imported from tifffile.py')
 	elif isinstance(img, str):
 		img = tf.imread(img)
 
-        x = np.round(x).astype(int)
-        y = np.round(y).astype(int)
+	x = np.round(x).astype(int)
+	y = np.round(y).astype(int)
 	data_z = img[:,y,x]
 	data = np.array([np.arange(len(data_z)), data_z])
 	poptZ, pcov = gaussfit(data,parent)
@@ -114,7 +114,7 @@ def getzGauss(x,y,img,parent=None,optimize=False,threshold=None,threshVal=0.6,cu
 		return poptZ[1]
 	else:
 		repeats = 5
-		if clrmsg and debug is True: print clrmsg.DEBUG + '2D Gaussian xy optimization running %.f at z = %.f' % (repeats,round(poptZ[1]))
+		if clrmsg and debug is True: print(clrmsg.DEBUG + '2D Gaussian xy optimization running %.f at z = %.f' % (repeats,round(poptZ[1])))
 		for repeat in range(repeats):
 			data = np.copy(img[
 						round(poptZ[1]),
@@ -155,13 +155,13 @@ def optimize_z(x,y,z,image,n=None):
 	x_opt,y_opt,z_opt = x,y,z
 	for i in range(5):
 		try:
-			print x_opt,y_opt,z_opt
+			print(x_opt,y_opt,z_opt)
 			x_opt,y_opt,z_opt = int(round(x_opt)),int(round(y_opt)),int(round(z_opt))
 			x_opt, y_opt = optimize_xy(x_opt,y_opt,z_opt,img,nx=None,ny=None)
 			data_z = img[:,round(y_opt),round(x_opt)]
 		except Exception as e:
-			if clrmsg and debug is True: print clrmsg.ERROR
-			print IndexError("Optimization failed, possibly due to low signal or low SNR. "+str(e))
+			if clrmsg and debug is True: print(clrmsg.ERROR)
+			print(IndexError("Optimization failed, possibly due to low signal or low SNR. "+str(e)))
 			return [x],[y],['failed']
 		n = getn(data_z)
 		z_opt, data_z_yp_poly = parabolic.parabolic_polyfit(data_z, np.argmax(data_z), n)
@@ -315,16 +315,16 @@ def gaussfit(data,parent=None,hold=False):
 		from scipy.stats import ks_2samp
 		## Get std from the diagonal of the covariance matrix
 		std_height, std_mean, std_sigma = np.sqrt(np.diag(pcov))
-		print clrmsg.DEBUG + '='*15, 'GAUSS FIT', '='*25
-		print clrmsg.DEBUG + 'Amplitude		:', popt[0]
-		print clrmsg.DEBUG + 'Location		:', popt[1]
+		print(clrmsg.DEBUG + '='*15, 'GAUSS FIT', '='*25)
+		print(clrmsg.DEBUG + 'Amplitude		:', popt[0])
+		print(clrmsg.DEBUG + 'Location		:', popt[1])
 		## http://mathworld.wolfram.com/GaussianFunction.html -> sigma * 2 * sqrt(2 * ln(2))
-		print clrmsg.DEBUG + 'FWHM			:', popt[2] * 2 * math.sqrt(2 * math.log(2,math.e))
-		print clrmsg.DEBUG + 'Std. Amplitude	:', std_height
-		print clrmsg.DEBUG + 'Std. Location	:', std_mean
-		print clrmsg.DEBUG + 'Std. FWHM		:', std_sigma * 2 * math.sqrt(2 * math.log(2,math.e))
-		print clrmsg.DEBUG + 'Mean dy		:', np.absolute(y-data[1]).mean()
-		print clrmsg.DEBUG + str(ks_2samp(y, data[1]))
+		print(clrmsg.DEBUG + 'FWHM			:', popt[2] * 2 * math.sqrt(2 * math.log(2,math.e)))
+		print(clrmsg.DEBUG + 'Std. Amplitude	:', std_height)
+		print(clrmsg.DEBUG + 'Std. Location	:', std_mean)
+		print(clrmsg.DEBUG + 'Std. FWHM		:', std_sigma * 2 * math.sqrt(2 * math.log(2,math.e)))
+		print(clrmsg.DEBUG + 'Mean dy		:', np.absolute(y-data[1]).mean())
+		print(clrmsg.DEBUG + str(ks_2samp(y, data[1])))
 	return popt, pcov
 
 

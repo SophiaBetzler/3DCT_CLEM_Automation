@@ -31,7 +31,7 @@ e.g. export:
 # ======================================================================================================================
 
 import csv
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui
 
 
 ## read csv/tsv into pyqt model for display in e.g. QTableView. existing model can be passed in

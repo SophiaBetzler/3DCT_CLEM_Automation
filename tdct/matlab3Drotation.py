@@ -30,7 +30,7 @@ import os
 try:
 	import matlab.engine
 except Exception as e:
-	print e
+	print(e)
 	sys.exit()
 
 filein			= 'S1G2_40x_area1_1_resliced.raw'
@@ -266,9 +266,9 @@ def runMatlab():
 	eng = matlab.engine.start_matlab()
 	exitcode = eng.rotate_script()
 	if exitcode == 0:
-		print "Script successfully executed"
+		print("Script successfully executed")
 	else:
-		print "Something went horribly wrong!!!11 AAAAAHHHHHHHHH"
+		print("Something went horribly wrong!!!11 AAAAAHHHHHHHHH")
 	cleanUp()
 
 

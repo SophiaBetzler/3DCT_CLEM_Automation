@@ -9,7 +9,7 @@ __version__ = "$Revision: 1179 $"
 
 # ToDo: see if this should become a superclass for some of the scripts
 
-import imp
+import importlib.util
 import sys
 import os
 import os.path
@@ -20,7 +20,7 @@ from copy import copy, deepcopy
 import logging
 
 import numpy
-
+from numpy.compat import unicode
 import pyto
 import pyto.attributes as attributes
 
@@ -51,10 +51,28 @@ def __import__(name, path):
     #except KeyError:
     #    pass
 
+    def find_module_info(name, path):
+        # Build the full module filename (assuming a .py file)
+        module_path = os.path.join(path, name + ".py")
+        # Create a module spec from the file location
+        spec = importlib.util.spec_from_file_location(name, module_path)
+        if spec is None:
+            raise ImportError(f"Cannot find module {name} in {path}")
+        # Open the file manually to get a file pointer (if needed)
+        fp = open(spec.origin, 'rb')
+        # The pathname is simply the origin from the spec
+        pathname = spec.origin
+        # Mimic a description tuple: (suffix, mode, type)
+        # For a normal Python source file, the suffix is ".py", mode is "rb", type is 1 (for source).
+        description = (os.path.splitext(pathname)[1], 'rb', 1)
+        return fp, pathname, description
+
     # import
-    fp, pathname, description = imp.find_module(name, [path])
+    fp, pathname, description = find_module_info("module_name", "/some/path")
     try:
-        return imp.load_module(name, fp, pathname, description)
+        spec = importlib.util.spec_from_file_location("module_name", pathname)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
     finally:
         # since we may exit via an exception, close fp explicitly.
         if fp:

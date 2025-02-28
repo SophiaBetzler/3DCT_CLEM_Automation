@@ -99,10 +99,10 @@ def test_model2np(tdct_CorrelationInstance_setup):
 def test_anglectrl(tdct_CorrelationInstance_setup):
 	testArray = {-1:359,0:0,1:1,359:359,360:0,361:1}
 	for k,v in testArray.iteritems():
-		print "Testing angle {0:03}, expecting {1:03} ... ".format(k, v),
+		print("Testing angle {0:03}, expecting {1:03} ... ").format(k, v),
 		angle = tdct_CorrelationInstance_setup.window.anglectrl(angle=k)
 		assert angle == v
-		print "OK"
+		print("OK")
 
 
 @pytest.mark.skipif(TDCT_error != "", reason="TDCT_correlation import failed: {0}".format(TDCT_error))

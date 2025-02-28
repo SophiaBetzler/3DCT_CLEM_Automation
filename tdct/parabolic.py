@@ -69,8 +69,8 @@ if __name__ == "__main__":
 	xm, ym = argmax(y), y[argmax(y)]
 	xp, yp = parabolic(y, argmax(y))
 
-	print "Max: ",xm,ym
-	print "Est. max: ",xp,yp
+	print("Max: ",xm,ym)
+	print("Est. max: ",xp,yp)
 
 	plot = plt.plot(y)
 	plt.hold(True)

@@ -46,7 +46,7 @@ try:
 	INFO = '[ ' + colorama.Fore.CYAN + colorama.Style.BRIGHT + 'INFO ' + colorama.Style.RESET_ALL + ' ] '
 	WARNING = '[ ' + colorama.Fore.YELLOW + colorama.Style.BRIGHT + 'WARN ' + colorama.Style.RESET_ALL + ' ] '
 except:
-	print "[ WARNING ] Unable to import colorama. I will pass non colored staus. Use 'pip install colorama' to install the module"
+	print("[ WARNING ] Unable to import colorama. I will pass non colored staus. Use 'pip install colorama' to install the module")
 	clrm_import = False
 
 	## prefixes without color if module 'colorama' is not installed
